@@ -37,7 +37,7 @@ for i=1:nsample;
 end
 Time=label(:,1);
 Status=label(:,2);
-save(strcat(dir, name_train,'.mat'),'X','W','Y','Time','Status');
+save(strcat(dir, name_train,'.mat'),'X','W','Y','Time','Status', '-v7.3');
 
 
 label_test=data_test(:,end-1:end);
@@ -54,5 +54,5 @@ for i=1:nsample_test;
 end
 Time_test=label_test(:,1);
 Status_test=label_test(:,2);
-save(strcat(dir,name_test,'.mat'),'X_test','W_test','Y_test','Time_test','Status_test');
+save(strcat(dir,name_test,'.mat'),'X_test','W_test','Y_test','Time_test','Status_test', '-v7.3');
 end
