@@ -1,35 +1,22 @@
-Name: MTLSA (A Multi-Task Learning Formulation for Survival Analysis)
-Version: 1.0
+# BASELINE4DESA_MTLSA
+This repo is forked from [MTLSA](https://github.com/MLSurvival/MTLSA), I modified some code in the repo to make it a baseline model for [DESA](https://github.com/qinjr/deep-bid-lands/tree/master/published_code), which is the implementation of the model proposed in a KDD'18 submitted paper, "Deep Survival Analysis for Fine-grained Bid Landscape Forecasting in Real-time Bidding Advertising".
+Many thanks to the authors of `MTLSA`.
 
-Together with this Readme.txt are the files mexC.m, MTLSA.m, MTLSA_V2.m survival_data_pre.m, MTLSA.pdf and the folders functions and data.
+### Data Preparation
+We have upload a tiny data sample for training and evaluation.
+The full dataset for this project can be download from this [link](http://apex.sjtu.edu.cn/datasets/13).
+After download please replace the sample data in `data/deep-bid-lands-data/` folder with the full data files.
 
-The folder "data" includes the example data for usage. The original training and testing files are both in ".csv" format. Where each instance is represented as a row in file and the last two columns are survival_times and censored_indicators, respectively. Please refer to “/data/NSBCD_data/NSBCD_train_1.csv” to check detailed format.
+### Running
+The code contains two parts, so you need to run it by following the steps here:
+* step1
+	If you just want to run the demo, you should execute the run.m in MATLAB, and that is enough 		for step1. If you want to run it with full volume data, you should follow the instructions in previous section and modifiy the run.m script to use different campaign's data. It is very simple.
+* step2
+	As step1, if you just want to run the demo, just execute:
+	```
+	python3 util_MTLSA.py
+	```
+  and it will give the AUC, log-loss and ANLP value trained on the sample data.
+  If you want to get full volume data result, do step1 and modify `util_MTLSA.py` in `campaign_list` variable. 
 
-Before running the codes, please first run "mexC.m" to mex the related C functions.
-
-The “survival_data_pre.m” is used to generate the target matrix Y, feature matrix X, and the indicator matrix W, from the original training and testing data. Please refer to the Figure 1 in MTLSA.pdf. 
-***run example of survival_data_pre.m
->>survival_data_pre 'NSBCD_data/' 'NSBCD_train_1' 'NSBCD_test_1'
-
-The “MTLSA.m” is the implementation of “Multi-Task Learning model for Survival Analysis”, and the result will be saved in the same folder where the training and testing data are saved.  
-***run example of MTLSA.m
->>MTLSA 'NSBCD_data/' 'NSBCD_train_1' 'NSBCD_test_1' 100 0.01
-
-The “MTLSA_V2.m” is the implementation of an adaptive variant of MTLSA model, and the result will be saved in the same folder where the training and testing data are saved.  
-***run example of MTLSA_V2.m
->>MTLSA_V2 'NSBCD_data/' 'NSBCD_train_1' 'NSBCD_test_1' 100 0.01
-
-You are suggested to read the paper 
-
-Yan Li, Jie Wang, Jieping Ye and Chandan K. Reddy “A Multi-Task Learning
-Formulation for Survival Analysis". In Proceedings of the 22nd ACM SIGKDD
-International Conference on Knowledge Discovery and Data Mining (KDD'16),
-San Francisco, CA, Aug. 2016
-
-which is the “MTLSA.pdf” in this folder for better understanding.
-
-If any problem, please contact Yan Li via yan.li.rock@gmail.com.
-
-Reference Packages:
-[1] Liu, Jun, Shuiwang Ji, and Jieping Ye. "SLEP: Sparse learning with efficient projections." Arizona State University 6 (2009): 491.
-[2] Zhou, Jiayu, Jianhui Chen, and Jieping Ye. "MALSAR: Multi-task learning via structural regularization." Arizona State University (2011).
+Be patient, to run the code with demo data we need about 30 minutes. Much slower when running it with full volume dataset.
