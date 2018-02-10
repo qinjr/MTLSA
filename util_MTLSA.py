@@ -72,7 +72,7 @@ def getANLP(campaign, csv_file, MTLSA_res_file_z, MTLSA_res_file_z1, best_auc_in
 	p[p <= 0] = 1e-8
 	anlp = np.mean(-np.log(p))
 
-	print(campaign, anlp)
+	print(campaign + ' anlp:', anlp)
 	return anlp
 
 
@@ -107,21 +107,21 @@ def getAUC(campaign, csv_file, MTLSA_res_file):
 			best_auc_index = index
 			best_auc = auc
 			cross_entropy = log_loss(label, preds)
-	print(campaign, best_auc)
-	print(campaign, cross_entropy)
+	print(campaign + ' auc:', best_auc)
+	print(campaign + ' log-loss:', cross_entropy)
 	return best_auc, best_auc_index
 
 
 if __name__ == '__main__':
-	campaign_list = ['2261']#2261
+	campaign_list = ['2259']
 	for campaign in campaign_list:
 		print(campaign)
 		#sample_data(0.1, 'data/deep-bid-lands-data/' + campaign + '/train.emb.csv', 'data/deep-bid-lands-data/' + campaign + '/train.emb.mini.csv')
 		#sample_data(0.1, 'data/deep-bid-lands-data/' + campaign + '/test.emb.csv', 'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z.csv')
 		#get_zplus1('data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z.csv', 'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z1.csv')
-		auc, best_auc_index = getAUC(campaign, 'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z.csv', 'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z0.01_z_result.mat')
-		anlp = getANLP(campaign, 'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z.csv', \
-								'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z0.01_z_result.mat', \
-								'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z10.01_z1_result.mat', best_auc_index)
+		auc, best_auc_index = getAUC(campaign, 'data/deep-bid-lands-data/' + campaign + '/test.emb.z.csv', 'data/deep-bid-lands-data/' + campaign + '/test.emb.z0.01_z_result.mat')
+		anlp = getANLP(campaign, 'data/deep-bid-lands-data/' + campaign + '/test.emb.z.csv', \
+								'data/deep-bid-lands-data/' + campaign + '/test.emb.z0.01_z_result.mat', \
+								'data/deep-bid-lands-data/' + campaign + '/test.emb.z10.01_z1_result.mat', best_auc_index)
 		fout = open('MTLSA_res.txt', 'a')
 		fout.write(campaign + '\t' + str(auc) + '\t' + str(anlp) + '\n')
