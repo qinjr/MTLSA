@@ -12,10 +12,8 @@ After download please replace the sample data in `data/deep-bid-lands-data/` fol
 Please install `h5py` first.
 The code contains two parts, so you need to run it by following the steps here:
 * step1:
-
 	If you just want to run the demo, you should execute the run.m in MATLAB, and that is enough 		for step1. If you want to run it with full volume data, you should follow the instructions in previous section and modifiy the run.m script to use different campaign's data. It is very simple.
 * step2:
-
 	As step1, if you just want to run the demo, just execute:
 	```
 	python3 util_MTLSA.py
