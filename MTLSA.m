@@ -24,7 +24,7 @@
 %% Run Example 
 %  MTLSA 'NSBCD_data/' 'NSBCD_train_1' 'NSBCD_test_1' 100 0.01
 
-function MTLSA(floder, name_train, name_test,lam_iter,Smallest_lambda_rate)
+function MTLSA(floder, name_train, name_test,lam_iter,Smallest_lambda_rate, zorzp1)
 current_path=cd;
 Num_lambda=str2num(lam_iter);
 smallest_rate=str2double(Smallest_lambda_rate);
@@ -53,6 +53,7 @@ num_sample = size(Y_test,1);
 num_task = size(Y_test,2);
 
 AUC_matrix=zeros(Num_lambda,num_task);
+win_rates = zeros(Num_lambda, num_sample, num_task);
 contains=zeros(num_task,1);
 dimension = size(X, 2);
 
@@ -122,12 +123,13 @@ for i = 1: Num_lambda
         label=Y_test(temp,k);
         contains(k)=size(temp,1);
         if length(unique(label))>1
+            pred1=result(:,k);
+            win_rate(i, :, k) = pred1;
             pred=result(temp,k);
             [X_pred,Y_Pred,T_Pred,AUC_Pred] = perfcurve(label,pred,1);
             AUC_matrix(i,k)=AUC_Pred;
         end
     end
-    
 end
 
 %calculating the weighted average of AUC
@@ -144,6 +146,6 @@ plot(log_lam, sparsity);
 xlabel('log(\lambda_1)')
 ylabel('Row Sparsity of Model (Percentage of All-Zero Columns)')
 title('Row Sparsity of Predictive Model when Changing Regularization Parameter');
-save(strcat(dir,name_test,Smallest_lambda_rate,'_result.mat'),'ALL_B',...
-    'weighted_AUC','cindex','lambda','AUC_matrix','sparsity');
+save(strcat(dir,name_test,Smallest_lambda_rate, '_', zorzp1, '_result.mat'),'ALL_B',...
+    'weighted_AUC','cindex','lambda','AUC_matrix','sparsity', 'win_rate', '-v7.3');
 end
