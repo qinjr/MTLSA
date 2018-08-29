@@ -69,7 +69,7 @@ def getANLP(campaign, csv_file, MTLSA_res_file_z, MTLSA_res_file_z1, best_auc_in
 		s_z1[i] = s_z1_prices[i, price_1[i]]
 
 	p = s_z - s_z1
-	p[p <= 0] = 1e-8
+	p[p <= 0] = 1e-20
 	anlp = np.mean(-np.log(p))
 
 	print(campaign + ' anlp:', anlp)
@@ -111,17 +111,28 @@ def getAUC(campaign, csv_file, MTLSA_res_file):
 	print(campaign + ' log-loss:', cross_entropy)
 	return best_auc, best_auc_index
 
+def pre_support_data(file):
+	newlines = []
+	with open(file, 'r') as f:
+		lines = f.readlines()
+		for line in lines:
+			items = line.split(',')
+			items[-2] = str(int(float(items[-2]) / 24) + 1)
+			items[-1] = str(int(float(items[-1][:-1]))) + '\n'
+			newlines.append(','.join(items))
+	with open(file, 'w') as f:
+		f.writelines(newlines)
+
 
 if __name__ == '__main__':
-	campaign_list = ['2259']
+	campaign_list = ['lastfm']
 	for campaign in campaign_list:
-		print(campaign)
-		#sample_data(0.1, 'data/deep-bid-lands-data/' + campaign + '/train.emb.csv', 'data/deep-bid-lands-data/' + campaign + '/train.emb.mini.csv')
-		#sample_data(0.1, 'data/deep-bid-lands-data/' + campaign + '/test.emb.csv', 'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z.csv')
-		#get_zplus1('data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z.csv', 'data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z1.csv')
-		auc, best_auc_index = getAUC(campaign, 'data/deep-bid-lands-data/' + campaign + '/test.emb.z.csv', 'data/deep-bid-lands-data/' + campaign + '/test.emb.z0.01_z_result.mat')
-		anlp = getANLP(campaign, 'data/deep-bid-lands-data/' + campaign + '/test.emb.z.csv', \
-								'data/deep-bid-lands-data/' + campaign + '/test.emb.z0.01_z_result.mat', \
-								'data/deep-bid-lands-data/' + campaign + '/test.emb.z10.01_z1_result.mat', best_auc_index)
+		# pre_support_data('data/deep-bid-lands-data/' + campaign + '/train.csv')
+		# pre_support_data('data/deep-bid-lands-data/' + campaign + '/test.z.csv')
+		# get_zplus1('../data/deep-bid-lands-data/' + campaign + '/test.emb.mini.csv', '../data/deep-bid-lands-data/' + campaign + '/test.emb.mini.z1.csv')
+		auc, best_auc_index = getAUC(campaign, 'data/deep-bid-lands-data/' + campaign + '/test.z.csv', 'data/deep-bid-lands-data/' + campaign + '/test.z0.01_z_result.mat')
+		anlp = getANLP(campaign, 'data/deep-bid-lands-data/' + campaign + '/test.z.csv', \
+								'data/deep-bid-lands-data/' + campaign + '/test.z0.01_z_result.mat', \
+								'data/deep-bid-lands-data/' + campaign + '/test.z10.01_z1_result.mat', best_auc_index)
 		fout = open('MTLSA_res.txt', 'a')
 		fout.write(campaign + '\t' + str(auc) + '\t' + str(anlp) + '\n')

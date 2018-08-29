@@ -1,6 +1,6 @@
 
-# BASELINE4DESA_MTLSA
-This repo is forked from [MTLSA](https://github.com/MLSurvival/MTLSA), I modified some code in the repo to make it a baseline model for [DESA](https://github.com/qinjr/deep-bid-lands/tree/master/published_code), which is the implementation of the model proposed in a KDD'18 submitted paper, "Deep Survival Analysis for Fine-grained Bid Landscape Forecasting in Real-time Bidding Advertising".
+# BASELINE4DRSA_MTLSA
+This repo is forked from [MTLSA](https://github.com/MLSurvival/MTLSA), I modified some code in the repo to make it a baseline model for [DRSA](https://github.com/qinjr/deep-bid-lands/tree/master/published_code), which is the implementation of the model proposed in a AAAI'19 submitted paper.
 Many thanks to the authors of `MTLSA`.
 
 ### Data Preparation
